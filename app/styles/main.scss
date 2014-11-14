@@ -1,0 +1,32 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+
+// bower:scss
+@import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+// endbower
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+header, main, footer {
+  margin: 2em auto;
+}
+
+header {
+  border-bottom: 1px solid #ccc;
+}
+
+footer {
+  border-top: 1px solid #ccc;
+}
+
+section {
+  @extend .clearfix;
+}
+
+.badge, .beer {
+  margin: 5px auto;
+}
