@@ -4,45 +4,84 @@
  *  Application that grabs Untappd Beer list and badges
  */
 
-var CLIENT_ID_SECRET = '?client_id=BEE5D99036C1A685A993F03F2112D91372339C48&client_secret=923B3926CB8482D5AF8CCC7661929E129DA4FAC0',
-      UNTAPPD_BASE_URL = 'https://api.untappd.com/v4/',
-      DEFAULT_USERNAME = 'jrpz';
+// Models
+// ====================================
+var Beer = Backbone.Model.extend({});
 
-// Get the list of distinct beers
-var displayBeers = function (userName) {
-  userName = userName || DEFAULT_USERNAME;
-  var distinct_beers_url = UNTAPPD_BASE_URL + 'user/beers/' + userName + CLIENT_ID_SECRET;
-  $.getJSON(distinct_beers_url, function (data) {
-    $.each(data.response.beers.items, function (i, item) {
-      $('#beers').append('<div class="col-lg-2 beer"><img src="' + item.beer.beer_label + '"></div>');
-      // $('#beers').append('<li>' + item.beer.beer_name + ' - ' + item.brewery.brewery_name + '</li>');
+
+// Collections
+// =====================================
+var BeerList = Backbone.Collection.extend({
+  model: Beer,
+  url: buildAPIUrl('user/beers/')
+});
+
+
+// Views
+// =====================================
+// Individual Beer View
+var BeerView = Backbone.View.extend({
+  tagName: 'article',
+  className: 'beer',
+  template: _.template($('#beer-template').html()),
+
+  render: function() {
+    this.$el.html(this.template( this.model ));
+    return this;
+  }
+});
+
+// Beer Collection View
+var BeerListView = Backbone.View.extend({
+  tagName: 'section',
+
+  initialize: function() {
+    var that = this;
+    this.collection.fetch({
+      success: function(method, collection) {
+        _.each(collection.response.beers.items, function (beer){
+          that.addBeer(beer);
+        })
+      }
     });
-  });
-}
+  },
 
-// Get badges
-var displayBadges = function (userName) {
-  userName = userName || DEFAULT_USERNAME;
-  var badges_url = UNTAPPD_BASE_URL + 'user/badges/' + userName + CLIENT_ID_SECRET;
-  
-  $.getJSON(badges_url, function (data) {
-    $.each(data.response.items, function (i, item) {
-      $('#badges').append('<div class="col-lg-2 badge"><img src="' + item.media.badge_image_md + '"></div>');
-      // $('#badges').append('<h4>' + item.badge_name + '</h4>');
-      // $('#badges').append('<p>' + item.badge_description + '</p></div>');
-    });
-  });
-}
+  addBeer: function(beer) {
+    var beerView = new BeerView({ model: beer });
+    this.$el.append(beerView.render().el);
+  },
+});
 
-$(document).ready(function () {
-  // Global variables
-  displayBeers();
-  displayBadges();
+// Search Bar View
+var SearchUserView = Backbone.View.extend({
+  el: '#user-name-form',
 
-  $('#user-name-form').submit(function (event) {
-    var userName = $('#user-name').val();
-    displayBeers(userName);
-    displayBadges(userName);
-    event.preventDefault();
-  });
+  events: {
+    'submit': 'searchUser'
+  },
+
+  searchUser: function() {
+    var userName = $('#user-name').val();    
+    var beerList = new BeerList();
+    beerList.url = buildAPIUrl('user/beers/', userName);
+    var beerListView = new BeerListView({collection: beerList});
+    $('#beers').html(beerListView.render().el);
+    return false;
+  }
+});
+
+// Application View
+var AppView = Backbone.View.extend({
+  initialize: function() {
+    var searchUserView = new SearchUserView();
+
+    var beerList = new BeerList();
+    var beerListView = new BeerListView({collection: beerList});
+    $('#beers').html(beerListView.render().el);
+  }
+});
+
+// Run all the stuff
+$(function() {
+  new AppView();
 });
