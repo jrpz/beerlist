@@ -4,16 +4,24 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 @import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
+body {
+  background-color: #fafafa;
+}
+
 header, main, footer {
   margin: 2em auto;
 }
 
-#search-bar {
-  margin: 2.5em auto;
+header {
+  border-bottom: 1px solid #444;
+  box-shadow: 0 1px 0 #fff;
+  h1 {
+    font-weight: bold;
+  }
 }
 
 #beers section {
-  display: flex; 
+  display: flex;
   flex-flow: row wrap;
 }
 
@@ -21,6 +29,8 @@ header, main, footer {
   margin: 10px;
 
   .beer-btn {
+    cursor: pointer;
+
     img {
       transition: all .45s ease;
       border-radius: 50%;
@@ -44,5 +54,3 @@ header, main, footer {
     height: 250px;
   }
 }
-
-

@@ -13,7 +13,9 @@ var Beer = Backbone.Model.extend({});
 // =====================================
 var BeerList = Backbone.Collection.extend({
   model: Beer,
-  url: buildAPIUrl('user/beers/')
+  url: buildAPIUrl('user/beers/'),
+
+  
 });
 
 
@@ -24,6 +26,13 @@ var BeerView = Backbone.View.extend({
   tagName: 'article',
   className: 'beer',
   template: _.template($('#beer-template').html()),
+
+  attributes: function () {
+    return {
+      'data-beer-style': this.model.beer.beer_style,
+      'data-beer-abv':   this.model.beer.beer_abv
+    }
+  },
 
   render: function() {
     this.$el.html(this.template( this.model ));
@@ -52,6 +61,19 @@ var BeerListView = Backbone.View.extend({
   },
 });
 
+// Filter Beers by abv and style
+var BeerFilterView = Backbone.View.extend({
+    el: '#beer-filter',
+
+
+});
+
+// Avg abv
+var BeerStatsView = Backbone.View.extend({
+
+})
+
+
 // Search Bar View
 var SearchUserView = Backbone.View.extend({
   el: '#user-name-form',
@@ -61,7 +83,7 @@ var SearchUserView = Backbone.View.extend({
   },
 
   searchUser: function() {
-    var userName = $('#user-name').val();    
+    var userName = $('#user-name').val();
     var beerList = new BeerList();
     beerList.url = buildAPIUrl('user/beers/', userName);
     var beerListView = new BeerListView({collection: beerList});
@@ -78,7 +100,9 @@ var AppView = Backbone.View.extend({
     var beerList = new BeerList();
     var beerListView = new BeerListView({collection: beerList});
     $('#beers').html(beerListView.render().el);
-  }
+
+  },
+
 });
 
 // Run all the stuff

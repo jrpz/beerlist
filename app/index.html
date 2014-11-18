@@ -5,7 +5,7 @@
     <title>Beer List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    
+
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <!-- endbower -->
@@ -22,7 +22,7 @@
   <body>
     <div class="container">
       <header class="header">
-        <h2>Untappd Beer List</h2>
+        <h1>Untappd Beer List</h1>
       </header>
 
       <main>
@@ -30,7 +30,7 @@
           <p>
             The Untappd Beer List collects and displays the 25 most recent check-ins on <a href="https://untappd.com" target="_blank">Untappd</a> for a given user. To start things off, I've supplied my username by default.  Provide your, or a friends, Untappd username to pull up their beer list and view the beer details.
           </p>
-        </section>  
+        </section>
 
         <!-- Search Bar -->
         <section id="search-bar">
@@ -39,16 +39,19 @@
               <label for="user-name">Untappd UserName</label>
               <input type="text" id="user-name" class="form-control" placeholder="ex: jrpz">
               <button type="submit" id="user-name-submit-btn" class="btn btn-success">
-                <i class="glyphicon glyphicon-search"></i> Search
+                Search
               </button>
             </form>
           </div>
         </section>
 
+        <section id="beer-filter">
+
+        </section>
         <!-- Beers Container -->
         <div id="beers"></div>
-      </main> 
-      
+      </main>
+
       <footer>
         <p>view source code @ <a href="https://github.com/jrpz/beerlist">github.com/jrpz/beerlist</a></p>
       </footer>
@@ -87,13 +90,13 @@
               </div>
 
               <div class="brewery-data">
-                Brewery: 
+                Brewery:
                 <a href="<%= brewery.contact.url %>" target="_blank">Website</a> |
-                <a href="<%= brewery.contact.facebook %>" target="_blank">Facebook</a> | 
+                <a href="<%= brewery.contact.facebook %>" target="_blank">Facebook</a> |
                 <a href="https://twitter.com/<%= brewery.contact.twitter %>" target="_blank">Twitter</a>
               </div>
 
-              <div class="brewery-map" id="<%= brewery.brewery_id %>">
+              <div class="brewery-map" id="map-<%= brewery.brewery_id %>">
                 <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= brewery.location.lat %>,<%= brewery.location.lng %>&zoom=9&size=565x250&markers=color:green%7C<%= brewery.location.lat %>,<%= brewery.location.lng %>&key=AIzaSyBtZeCYnQbFPvi8MFkNNEwdxw7qkEAHGWY">
               </div>
             </div>
@@ -107,7 +110,7 @@
 
     </script>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
