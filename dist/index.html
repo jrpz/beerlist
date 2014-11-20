@@ -5,7 +5,7 @@
     <title>Beer List</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    
+
     
 
     <link rel="stylesheet" href="styles/main.css">
@@ -15,15 +15,15 @@
   <body>
     <div class="container">
       <header class="header">
-        <h2>Untappd Beer List</h2>
+        <h1>The Beer List</h1>
       </header>
 
       <main>
         <section id="intro">
           <p>
-            The Untappd Beer List collects and displays the 25 most recent check-ins on <a href="https://untappd.com" target="_blank">Untappd</a> for a given user. To start things off, I've supplied my username by default.  Provide your, or a friends, Untappd username to pull up their beer list and view the beer details.
+            The Beer List retrieves and displays <a href="https://untappd.com" target="_blank">Untappd</a> user information. To start things off, I've supplied my UserName by default.  Provide your, or a friends, Untappd UserName in the search bar to pull up their beer list.
           </p>
-        </section>  
+        </section>
 
         <!-- Search Bar -->
         <section id="search-bar">
@@ -32,21 +32,71 @@
               <label for="user-name">Untappd UserName</label>
               <input type="text" id="user-name" class="form-control" placeholder="ex: jrpz">
               <button type="submit" id="user-name-submit-btn" class="btn btn-success">
-                <i class="glyphicon glyphicon-search"></i> Search
+              Search
               </button>
             </form>
           </div>
         </section>
 
+        <!-- User Container -->
+        <section id="user"></section>
+
         <!-- Beers Container -->
-        <div id="beers"></div>
-      </main> 
-      
+        <section id="beers"></section>
+      </main>
+
       <footer>
         <p>view source code @ <a href="https://github.com/jrpz/beerlist">github.com/jrpz/beerlist</a></p>
       </footer>
     </div>
 
+    <!-- Templates -->
+    <!-- User Template -->
+    <script type="text/template" id="user-template">
+      <div class="row">
+        <div class="col-md-4 user">
+          <a href="<%= untappd_url %>" target="_blank">
+            <img src="<%= user_avatar %>">
+          </a>
+          
+          <h3>
+            <%= first_name %> <%= last_name %>  
+            (<%= user_name %>)
+          </h3>
+  
+          <div class="call-to-action">
+            <button id="view-recent-beers-btn" class="btn btn-primary">
+              View Recent Beers
+            </button>
+          </div>
+        </div>
+  
+        <div class="col-md-4">
+          <table class="user-stats table table-bordered">
+            <% _.each(stats, function (stat, key) { %>
+              <tr class="stat">
+                <td>
+                  <%= key.replace('total_', '') %>
+                </td>
+                <td>
+                  <%= stat %>
+                </td>
+              </tr>
+            <% }); %>
+          </table>
+        </div>
+  
+        <div class="col-md-4">
+          <h4>Bio</h4>
+          <% if (bio) %>
+            <p><%= bio %></p>
+          <% else %>
+            <p>No Bio Provided.</p>
+        </div>
+      </div>
+    </script>
+
+    <!-- Beer & Brewery Template -->
     <script type="text/template" id="beer-template">
       <div class="beer-btn">
         <a data-toggle="modal" data-target="#<%= beer.bid %>">
@@ -80,13 +130,13 @@
               </div>
 
               <div class="brewery-data">
-                Brewery: 
+                Brewery:
                 <a href="<%= brewery.contact.url %>" target="_blank">Website</a> |
-                <a href="<%= brewery.contact.facebook %>" target="_blank">Facebook</a> | 
+                <a href="<%= brewery.contact.facebook %>" target="_blank">Facebook</a> |
                 <a href="https://twitter.com/<%= brewery.contact.twitter %>" target="_blank">Twitter</a>
               </div>
 
-              <div class="brewery-map" id="<%= brewery.brewery_id %>">
+              <div class="brewery-map" id="map-<%= brewery.brewery_id %>">
                 <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= brewery.location.lat %>,<%= brewery.location.lng %>&zoom=9&size=565x250&markers=color:green%7C<%= brewery.location.lat %>,<%= brewery.location.lng %>&key=AIzaSyBtZeCYnQbFPvi8MFkNNEwdxw7qkEAHGWY">
               </div>
             </div>
@@ -97,19 +147,18 @@
           </div>
         </div>
       </div>
-
     </script>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
+    <!-- Google Analytics -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
       e.src='//www.google-analytics.com/analytics.js';
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
+      ga('create','UA-53099612-2');ga('send','pageview');
     </script>
-    -->
+    
     <script src="scripts/vendor.js"></script>
 
     <script src="scripts/plugins.js"></script>
