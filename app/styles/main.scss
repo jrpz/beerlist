@@ -4,28 +4,61 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 @import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
+// Body Structure
+// ------------------------------
 body {
   background-color: #fafafa;
 }
 
-header, main, footer {
+header, main, footer, section {
   margin: 2em auto;
 }
 
+// Header
+// ------------------------------
 header {
   border-bottom: 1px solid #444;
-  box-shadow: 0 1px 0 #fff;
   h1 {
     font-weight: bold;
   }
 }
 
-#beers section {
+// User
+// ------------------------------
+#user {
+  border: 1px solid $gray-lighter;
+
+  .user {
+    h3 { margin-top: 8px; }
+    img { border-radius: 50%; }
+    text-align: center;
+    padding-top: 45px;
+  }
+
+  .user-stats {
+    margin-bottom: 0;
+    .stat {
+      &:nth-child(odd) {
+        background-color: $gray-lighter;
+      }
+
+      td:first-child {
+        width: 50%;
+        text-transform: capitalize;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// Beer List
+// ------------------------------
+#beers {
   display: flex;
   flex-flow: row wrap;
 }
 
-#beers section article.beer {
+#beers article.beer {
   margin: 10px;
 
   .beer-btn {
@@ -43,7 +76,7 @@ header {
     &:hover {
       img {
         border-color: $brand-danger;
-        box-shadow: 0 4px 8px black;
+        box-shadow: 0 4px 10px black;
       }
     }
   }
@@ -53,4 +86,12 @@ header {
     width: 568px;
     height: 250px;
   }
+}
+
+// Footer
+// ------------------------------
+footer {
+  font-size: .75em;
+  padding-top: 5px;
+  border-top: 1px solid #444;
 }

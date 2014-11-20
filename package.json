@@ -1,7 +1,8 @@
 {
   "name": "beerlist",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {},
+  "private": true,
   "devDependencies": {
     "connect": "^2.14.4",
     "connect-livereload": "^0.4.0",
