@@ -39,6 +39,9 @@ app.UserView = Backbone.View.extend({
 
     // Get some beer data
     beerList.fetch({reset: true});
+
+    // Display beerList
+    $('#beers').html(beerListView.el);
   }
 });
 
@@ -79,7 +82,7 @@ app.BeerView = Backbone.View.extend({
 app.BeerListView = Backbone.View.extend({
 
   // use a section tag
-  el: '#beers',
+  tagName: 'section',
 
   // init view.
   initialize: function() {
@@ -94,9 +97,6 @@ app.BeerListView = Backbone.View.extend({
   },
 
   addBeers: function() {
-    // clear current element contents
-    this.$el.html('');
-
     // Step thru the collection
     this.collection.each(function(beer) {
       this.addBeer(beer);
